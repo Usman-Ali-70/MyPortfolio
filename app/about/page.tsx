@@ -18,7 +18,18 @@ import Avatar from "@/components/Avatar";
 import Circles from "@/components/Circles";
 import { fadeIn } from "@/variants";
 
-export const aboutData = [
+export interface AboutItem {
+  title: string;
+  stage?: string;
+  icons?: React.ComponentType[];
+}
+
+export interface AboutSection {
+  title: string;
+  info: AboutItem[];
+}
+
+export const aboutData: AboutSection[] = [
   {
     title: "skills",
     info: [
@@ -63,36 +74,18 @@ export const aboutData = [
   {
     title: "projects",
     info: [
-      {
-        title: "E-commerce Site",
-        stage: "sheikhjeegarments.com",
-      },
-      {
-        title: "Inventory Management System",
-      },
-      {
-        title: "School Management Platform",
-      },
-      {
-        title: "Social Media Template",
-      },
+      { title: "E-commerce Site", stage: "sheikhjeegarments.com" },
+      { title: "Inventory Management System" },
+      { title: "School Management Platform" },
+      { title: "Social Media Template" },
     ],
   },
   {
     title: "education",
     info: [
-      {
-        title: "BS Computer Science - University of Gujrat",
-        stage: "Expected 2027",
-      },
-      {
-        title: "F.Sc. Pre-Engineering - Jinnah Public College",
-        stage: "2023",
-      },
-      {
-        title: "Matriculation - Jinnah Public School",
-        stage: "2021",
-      },
+      { title: "BS Computer Science - University of Gujrat", stage: "Expected 2027" },
+      { title: "F.Sc. Pre-Engineering - Jinnah Public College", stage: "2023" },
+      { title: "Matriculation - Jinnah Public School", stage: "2021" },
     ],
   },
 ];
@@ -104,7 +97,7 @@ const AboutPage = () => {
     <div className="relative h-screen bg-primary/30 flex items-center text-center xl:text-left overflow-hidden">
       <Circles />
 
-      {/* Avatar Image */}
+      {/* Avatar */}
       <motion.div
         variants={fadeIn("right", 0.2)}
         initial="hidden"
@@ -116,7 +109,7 @@ const AboutPage = () => {
       </motion.div>
 
       <div className="container mx-auto h-full flex flex-col items-center xl:flex-row gap-x-6 px-4">
-        {/* Left Text Section */}
+        {/* Left Text */}
         <div className="flex-1 flex flex-col justify-center">
           <motion.h2
             variants={fadeIn("right", 0.2)}
@@ -125,8 +118,7 @@ const AboutPage = () => {
             exit="hidden"
             className="h2 font-semibold"
           >
-            Building <span className="text-accent">innovative</span> digital
-            solutions with modern technologies.
+            Building <span className="text-accent">innovative</span> digital solutions with modern technologies.
           </motion.h2>
 
           <motion.p
@@ -135,12 +127,7 @@ const AboutPage = () => {
             animate="show"
             className="max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 text-gray-300 leading-relaxed"
           >
-            I’m <span className="text-orange-500 font-medium">Usman Ali</span>, a
-            passionate Full Stack Developer focused on crafting efficient,
-            scalable, and visually engaging web applications using modern
-            technologies like Next.js, React, and Node.js. With hands-on
-            experience in building real-world solutions, I aim to bring ideas to
-            life through elegant and maintainable code.
+            I’m <span className="text-orange-500 font-medium">Usman Ali</span>, a passionate Full Stack Developer focused on crafting efficient, scalable, and visually engaging web applications using modern technologies like Next.js, React, and Node.js. With hands-on experience in building real-world solutions, I aim to bring ideas to life through elegant and maintainable code.
           </motion.p>
 
           {/* Counters */}
@@ -218,7 +205,9 @@ const AboutPage = () => {
               >
                 <div className="font-light mb-2 md:mb-0">{item.title}</div>
                 <div className="hidden md:flex">-</div>
-                <div>{item.stage}</div>
+
+                {/* Safely render stage */}
+                {item.stage && <div>{item.stage}</div>}
 
                 {/* Icons */}
                 <div className="flex gap-x-3 mt-1 md:mt-0">

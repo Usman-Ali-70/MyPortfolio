@@ -5,29 +5,36 @@ import Bulb from "@/components/Bulb";
 import Circles from "@/components/Circles";
 import ServiceSlider from "@/components/ServiceSlider";
 import { fadeIn } from "@/variants";
+import { RxCrop, RxPencil2, RxDesktop, RxReader, RxRocket } from "react-icons/rx";
 
+// Custom service data with icons
 export const serviceData = [
   {
+    Icon: RxDesktop,
     title: "Full Stack Web Development",
     description:
       "Building responsive, scalable, and high-performance web applications using modern technologies like Next.js, React, and Node.js. I specialize in creating seamless user experiences integrated with powerful backends.",
   },
   {
+    Icon: RxPencil2,
     title: "UI / UX Design",
     description:
       "Designing visually engaging and intuitive interfaces with a focus on user experience, accessibility, and smooth interaction flows. I create clean, responsive layouts that enhance product usability.",
   },
   {
+    Icon: RxReader,
     title: "Database & API Integration",
     description:
       "Integrating secure RESTful APIs and databases (MongoDB, MySQL, Sanity) to ensure efficient data management, real-time updates, and optimized performance for large-scale applications.",
   },
   {
+    Icon: RxRocket,
     title: "Website Optimization",
     description:
       "Improving site performance, SEO, and Core Web Vitals. I use caching, compression, and optimized rendering to deliver lightning-fast load times across devices.",
   },
   {
+    Icon: RxCrop,
     title: "Freelance & Consulting",
     description:
       "Helping businesses transform ideas into digital products through strategic consulting, technical architecture, and hands-on development.",

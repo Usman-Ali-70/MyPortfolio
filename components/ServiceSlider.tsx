@@ -17,14 +17,19 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 
 // TypeScript interface for service items
-interface ServiceItem {
+export interface ServiceItem {
   Icon: React.ComponentType<{ className?: string }>;
   title: string;
   description: string;
 }
 
-// Service data
-const serviceData: ServiceItem[] = [
+// Props interface for ServiceSlider (optional dynamic data)
+interface ServiceSliderProps {
+  services?: ServiceItem[];
+}
+
+// Default service data
+const defaultServiceData: ServiceItem[] = [
   {
     Icon: RxCrop,
     title: "Branding",
@@ -52,29 +57,32 @@ const serviceData: ServiceItem[] = [
   },
 ];
 
-const ServiceSlider: React.FC = () => {
+const ServiceSlider: React.FC<ServiceSliderProps> = ({
+  services = defaultServiceData,
+}) => {
   return (
     <Swiper
       breakpoints={{
         320: { slidesPerView: 1, spaceBetween: 15 },
-        640: { slidesPerView: 3, spaceBetween: 15 },
+        640: { slidesPerView: 2, spaceBetween: 15 },
+        1024: { slidesPerView: 3, spaceBetween: 20 },
       }}
       pagination={{ clickable: true }}
       modules={[FreeMode, Pagination]}
       freeMode
-      className="h-[240px] sm:h-[340px]"
+      className="h-[260px] sm:h-[340px]"
     >
-      {serviceData.map((item, i) => (
+      {services.map((item, i) => (
         <SwiperSlide key={i}>
-          <div className="bg-[rgba(65,47,123,0.15)] h-max rounded-lg px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65,169,0.15)] transition-all duration-300">
+          <div className="bg-[rgba(65,47,123,0.15)] rounded-lg px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65,169,0.15)] transition-all duration-300">
             {/* Icon */}
-            <div className="text-4xl text-accent mb-4">
+            <div className="text-4xl text-accent mb-4 sm:mb-2">
               <item.Icon aria-hidden />
             </div>
 
             {/* Title & Description */}
-            <div className="mb-8">
-              <div className="mb-2 text-lg font-semibold">{item.title}</div>
+            <div className="flex-1 mb-4 sm:mb-8">
+              <div className="mb-2 text-lg font-semibold text-white">{item.title}</div>
               <p className="max-w-[350px] leading-normal text-white/70">
                 {item.description}
               </p>

@@ -11,39 +11,22 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 // TypeScript interface for testimonials
-interface Testimonial {
-  image: string;
+export interface Testimonial {
   name: string;
   position: string;
+  company?: string;
   message: string;
+  image?: string; // optional, can be missing
 }
 
-// ✅ Updated with Pakistani names
-const testimonialData: Testimonial[] = [
-  {
-    image: "/t-avt-1.png",
-    name: "Ali Khan",
-    position: "Entrepreneur",
-    message:
-      "Working with Usman Ali was an amazing experience. His professionalism, creativity, and technical expertise exceeded all expectations!",
-  },
-  {
-    image: "/t-avt-2.png",
-    name: "Ayesha Ahmed",
-    position: "Business Owner",
-    message:
-      "Usman built our company’s website from scratch. His design sense and responsiveness made the whole process smooth and enjoyable.",
-  },
-  {
-    image: "/t-avt-3.png",
-    name: "Bilal Iqbal",
-    position: "Software Engineer",
-    message:
-      "A talented full-stack developer with strong problem-solving skills. I’ve collaborated with Usman on multiple projects — always a pleasure!",
-  },
-];
+// Props interface
+interface TestimonialSliderProps {
+  testimonials: Testimonial[];
+}
 
-const TestimonialSlider: React.FC = () => {
+const TestimonialSlider: React.FC<TestimonialSliderProps> = ({ testimonials }) => {
+  const defaultAvatar = "/default-avatar.png"; // default image if none provided
+
   return (
     <Swiper
       navigation
@@ -51,7 +34,7 @@ const TestimonialSlider: React.FC = () => {
       modules={[Navigation, Pagination]}
       className="h-[400px]"
     >
-      {testimonialData.map((person, i) => (
+      {testimonials.map((person, i) => (
         <SwiperSlide key={i}>
           <div className="flex flex-col items-center md:flex-row gap-x-8 h-full px-6 sm:px-12 md:px-16">
             {/* avatar, name, position */}
@@ -60,7 +43,7 @@ const TestimonialSlider: React.FC = () => {
                 {/* avatar */}
                 <div className="mb-2 mx-auto">
                   <Image
-                    src={person.image}
+                    src={person.image || defaultAvatar}
                     width={100}
                     height={100}
                     alt={`${person.name} profile photo`}
@@ -70,9 +53,7 @@ const TestimonialSlider: React.FC = () => {
                 </div>
 
                 {/* name */}
-                <div className="text-lg font-semibold text-white">
-                  {person.name}
-                </div>
+                <div className="text-lg font-semibold text-white">{person.name}</div>
 
                 {/* position */}
                 <div className="text-[12px] uppercase font-extralight tracking-widest text-white/70">

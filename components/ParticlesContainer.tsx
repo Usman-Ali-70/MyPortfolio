@@ -1,9 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
+import dynamic from "next/dynamic";
+import { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
+
+// Dynamically import Particles to avoid SSR issues
+const Particles = dynamic(() => import("@tsparticles/react").then((mod) => mod.Particles), {
+  ssr: false,
+  loading: () => null, // Optional: show nothing while loading
+});
 
 const ParticlesContainer: React.FC = () => {
   const [init, setInit] = useState(false);
@@ -55,17 +62,14 @@ const ParticlesContainer: React.FC = () => {
           },
           number: {
             value: 300,
-            density: { enable: true, area: 1200 },
+            density: { enable: true },
           },
           opacity: {
             value: 0.7,
-            random: true,
-            anim: { enable: true, speed: 0.8, opacity_min: 0.3, sync: false },
           },
           shape: { type: "circle" },
           size: {
             value: { min: 1.5, max: 4 },
-            random: true,
           },
           rotate: {
             value: 0,
