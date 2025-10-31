@@ -70,7 +70,7 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({
       pagination={{ clickable: true }}
       modules={[FreeMode, Pagination]}
       freeMode
-      className="h-[260px] sm:h-[340px]"
+      className="h-[360px] sm:h-[440px]"
     >
       {services.map((item, i) => (
         <SwiperSlide key={i}>
