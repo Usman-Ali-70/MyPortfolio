@@ -74,7 +74,6 @@ const ServicesPage = () => {
             </motion.p>
           </div>
 
-          {/* Service Slider Section */}
           <motion.div
             variants={fadeIn("down", 0.6)}
             initial="hidden"
