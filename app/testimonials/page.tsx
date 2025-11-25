@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import TestimonialSlider, { Testimonial } from "@/components/TestimonialSlider";
 import { fadeIn } from "@/variants";
 
-// Sample testimonials data
 export const testimonialsData: Testimonial[] = [
   {
     name: "Ahmed Raza",
