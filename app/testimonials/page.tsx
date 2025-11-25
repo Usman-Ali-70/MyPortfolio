@@ -43,7 +43,7 @@ export const testimonialsData: Testimonial[] = [
     company: "TechBridge PK",
     message:
       "Usman Ali has great command over Next.js and modern web stacks. He built our MVP in record time and added creative touches that made the product stand out.",
-    // no image, will use default
+    
   },
 ];
 
