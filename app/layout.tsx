@@ -113,6 +113,7 @@ export default function RootLayout({
         {/* Adds Google Analytics and Google Tag Manager. Replace with your actual IDs */}
         <GoogleAnalytics gaId="G-XYZ" />
         <GoogleTagManager gtmId="GTM-XYZ" />
+        <SpeedInsights />
         {/* JSON-LD Schema defined for Rich Search Results */}
         <script
           type="application/ld+json"
