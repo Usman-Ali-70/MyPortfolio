@@ -4,79 +4,89 @@ import React from "react";
 import Image from "next/image";
 import { FaQuoteLeft } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-// TypeScript interface for testimonials
 export interface Testimonial {
   name: string;
   position: string;
   company?: string;
   message: string;
-  image?: string; // optional, can be missing
+  image?: string;
 }
 
-// Props interface
 interface TestimonialSliderProps {
   testimonials: Testimonial[];
 }
 
 const TestimonialSlider: React.FC<TestimonialSliderProps> = ({ testimonials }) => {
-  const defaultAvatar = "/default-avatar.png"; // default image if none provided
-
   return (
     <Swiper
-      navigation
+      navigation={true}
       pagination={{ clickable: true }}
-      modules={[Navigation, Pagination]}
-      className="h-[400px]"
+      autoplay={{
+        delay: 2000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      }}
+      autoHeight={true}
+      modules={[Navigation, Pagination, Autoplay]}
+      className="testimonial-slider min-h-[320px] md:min-h-[400px] xl:h-[480px]"
+      style={{
+        // @ts-ignore
+        "--swiper-navigation-color": "#F13024",
+        "--swiper-pagination-color": "#F13024",
+      }}
     >
       {testimonials.map((person, i) => (
         <SwiperSlide key={i}>
-          <div className="flex flex-col items-center md:flex-row gap-x-8 h-full px-6 sm:px-12 md:px-16">
-            {/* avatar, name, position */}
-            <div className="w-full max-w-[300px] flex flex-col xl:justify-center items-center relative mx-auto xl:mx-0">
-              <div className="flex flex-col justify-center text-center">
-                {/* avatar */}
-                <div className="mb-2 mx-auto">
+          <div className="flex flex-col h-full justify-center px-4 md:px-20 py-6 md:py-8">
+
+            {/* 1. Minimalist Branding at the Top (Moved Upper) */}
+            <div className="flex items-center gap-x-4 border-b border-white/10 pb-6 mb-6">
+              {/* Small Avatar */}
+              <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border border-white/20 shadow-lg">
+                {person.image ? (
                   <Image
-                    src={person.image || defaultAvatar}
-                    width={100}
-                    height={100}
-                    alt={`${person.name} profile photo`}
-                    className="rounded-full border border-white/20"
-                    priority
+                    src={person.image}
+                    fill
+                    alt={person.name}
+                    className="object-cover"
                   />
-                </div>
+                ) : (
+                  <div className="w-full h-full bg-accent/20 flex items-center justify-center text-accent text-sm font-bold uppercase">
+                    {person.name.charAt(0)}
+                  </div>
+                )}
+              </div>
 
-                {/* name */}
-                <div className="text-lg font-semibold text-white">{person.name}</div>
-
-                {/* position */}
-                <div className="text-[12px] uppercase font-extralight tracking-widest text-white/70">
+              {/* Text Info */}
+              <div className="flex flex-col text-left">
+                <span className="text-sm md:text-base font-bold text-white tracking-tight">
+                  {person.name}
+                </span>
+                <span className="text-[10px] md:text-[11px] uppercase font-semibold tracking-[1.5px] text-accent/80 block mt-0.5">
                   {person.position}
-                </div>
+                </span>
               </div>
             </div>
 
-            {/* quote & message */}
-            <div className="flex-1 flex flex-col justify-center relative xl:pl-20 before:w-[1px] xl:before:bg-white/20 xl:before:absolute xl:before:left-0 xl:before:h-[200px]">
-              {/* quote icon */}
-              <div className="mb-4">
+            {/* 2. Primary Content: The Message */}
+            <div className="flex-1 group">
+              <div className="mb-4 opacity-10">
                 <FaQuoteLeft
-                  className="text-4xl xl:text-6xl text-white/20 mx-auto md:mx-0"
-                  aria-hidden
+                  className="text-3xl text-white mx-auto md:mx-0"
+                  aria-hidden="true"
                 />
               </div>
-
-              {/* message */}
-              <div className="xl:text-lg text-center md:text-left text-white/80 leading-relaxed">
-                {person.message}
-              </div>
+              <p className="text-[15px] md:text-lg lg:text-xl text-center md:text-left text-white/90 leading-relaxed font-light italic pr-6 group-hover:text-white transition-colors duration-500">
+                &ldquo;{person.message}&rdquo;
+              </p>
             </div>
+
           </div>
         </SwiperSlide>
       ))}

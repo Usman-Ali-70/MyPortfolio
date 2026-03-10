@@ -1,65 +1,27 @@
 "use client";
 
 import React from "react";
-import {
-  RxCrop,
-  RxPencil2,
-  RxDesktop,
-  RxReader,
-  RxRocket,
-  RxArrowTopRight,
-} from "react-icons/rx";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Pagination } from "swiper/modules";
+import { FreeMode, Pagination, Autoplay, Navigation } from "swiper/modules";
+import { RxArrowTopRight } from "react-icons/rx";
+import { getIcon } from "@/lib/iconMapper";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-// TypeScript interface for service items
 export interface ServiceItem {
-  Icon: React.ComponentType<{ className?: string }>;
+  icon?: string;
   title: string;
   description: string;
 }
 
-// Props interface for ServiceSlider (optional dynamic data)
 interface ServiceSliderProps {
-  services?: ServiceItem[];
+  services: ServiceItem[];
 }
 
-// Default service data
-const defaultServiceData: ServiceItem[] = [
-  {
-    Icon: RxCrop,
-    title: "Branding",
-    description: "Creative and strategic brand identity design for your business.",
-  },
-  {
-    Icon: RxPencil2,
-    title: "UI/UX Design",
-    description: "Designing modern, user-friendly interfaces with seamless experience.",
-  },
-  {
-    Icon: RxDesktop,
-    title: "Web Development",
-    description: "Building responsive, dynamic web applications using MERN stack.",
-  },
-  {
-    Icon: RxReader,
-    title: "Content Creation",
-    description: "Professional web copy and engaging digital content writing.",
-  },
-  {
-    Icon: RxRocket,
-    title: "SEO Optimization",
-    description: "Improving visibility and performance with modern SEO techniques.",
-  },
-];
-
-const ServiceSlider: React.FC<ServiceSliderProps> = ({
-  services = defaultServiceData,
-}) => {
+const ServiceSlider: React.FC<ServiceSliderProps> = ({ services }) => {
   return (
     <Swiper
       breakpoints={{
@@ -68,36 +30,47 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({
         1024: { slidesPerView: 3, spaceBetween: 20 },
       }}
       pagination={{ clickable: true }}
-      modules={[FreeMode, Pagination]}
-      freeMode
-      className="h-[360px] sm:h-[440px]"
+      navigation={true}
+      autoplay={{
+        delay: 2000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      }}
+      modules={[FreeMode, Pagination, Autoplay, Navigation]}
+      freeMode={true}
+      className="h-[300px] sm:h-[450px] service-slider"
     >
-      {services.map((item, i) => (
-        <SwiperSlide key={i}>
-          <div className="bg-[rgba(65,47,123,0.15)] rounded-lg px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65,169,0.15)] transition-all duration-300">
-            {/* Icon */}
-            <div className="text-4xl text-accent mb-4 sm:mb-2">
-              <item.Icon aria-hidden />
-            </div>
+      {services.map((item, i) => {
+        const Icon = getIcon(item.icon);
+        return (
+          <SwiperSlide key={i}>
+            <div className="bg-[rgba(65,47,123,0.15)] h-max min-h-[200px] sm:min-h-[280px] rounded-2xl border border-white/10 px-6 py-8 flex sm:flex-col gap-x-6 sm:gap-x-0 group cursor-pointer hover:bg-[rgba(89,65,169,0.25)] hover:border-accent/50 transition-all duration-300 relative overflow-hidden backdrop-blur-sm">
 
-            {/* Title & Description */}
-            <div className="flex-1 mb-4 sm:mb-8">
-              <div className="mb-2 text-lg font-semibold text-white">{item.title}</div>
-              <p className="max-w-[350px] leading-normal text-white/70">
-                {item.description}
-              </p>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            {/* Arrow */}
-            <div className="text-3xl">
-              <RxArrowTopRight
-                className="group-hover:rotate-45 group-hover:text-accent transition-all duration-300"
-                aria-hidden
-              />
+              <div className="text-4xl text-accent mb-4 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(241,48,36,0.5)]">
+                <Icon aria-hidden="true" />
+              </div>
+
+              <div className="flex-1 mb-4 relative z-10">
+                <div className="mb-2 text-lg font-bold text-white tracking-wide">
+                  {item.title}
+                </div>
+                <p className="max-w-[350px] leading-relaxed text-white/60 text-[14px] md:text-base font-light">
+                  {item.description}
+                </p>
+              </div>
+
+              <div className="text-3xl relative z-10">
+                <RxArrowTopRight
+                  className="group-hover:rotate-45 group-hover:text-accent transition-all duration-300"
+                  aria-hidden="true"
+                />
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
-      ))}
+          </SwiperSlide>
+        );
+      })}
     </Swiper>
   );
 };

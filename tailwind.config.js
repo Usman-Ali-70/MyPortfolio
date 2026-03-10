@@ -39,6 +39,9 @@ module.exports = {
         poppins: [`var(--font-poppins)`, "sans-serif"],
         sora: [`var(--font-sora)`, "sans-serif"],
       },
+      transitionTimingFunction: {
+        premium: "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
     },
   },
   container: {

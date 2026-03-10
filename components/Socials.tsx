@@ -1,77 +1,61 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
-import {
-  RiYoutubeLine,
-  RiInstagramLine,
-  RiFacebookLine,
-  RiDribbbleLine,
-  RiGithubLine,
-  RiPinterestLine,
-} from "react-icons/ri";
+import React, { useEffect, useState } from "react";
+import { client } from "@/sanity/lib/client";
+import { siteSettingsQuery } from "@/sanity/lib/queries";
+import { getIcon } from "@/lib/iconMapper";
 
-// TypeScript interface for social data
 interface SocialLink {
-  name: string;
-  link: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  platform: string;
+  url: string;
+  icon: string;
 }
 
-// Update with your real links
-export const socialData: SocialLink[] = [
-  {
-    name: "YouTube",
-    link: "https://youtube.com",
-    Icon: RiYoutubeLine,
-  },
-  {
-    name: "Instagram",
-    link: "https://instagram.com",
-    Icon: RiInstagramLine,
-  },
-  {
-    name: "Facebook",
-    link: "https://facebook.com",
-    Icon: RiFacebookLine,
-  },
-  {
-    name: "Dribbble",
-    link: "https://dribbble.com",
-    Icon: RiDribbbleLine,
-  },
-  {
-    name: "Pinterest",
-    link: "https://pinterest.com",
-    Icon: RiPinterestLine,
-  },
-  {
-    name: "GitHub",
-    link: "https://github.com/usmanaliwarraich", // 🔥 Updated with your GitHub profile
-    Icon: RiGithubLine,
-  },
-];
-
 const Socials: React.FC = () => {
+  const [socials, setSocials] = useState<SocialLink[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    client.fetch(siteSettingsQuery).then((data) => {
+      if (data?.socialLinks && data.socialLinks.length > 0) {
+        setSocials(data.socialLinks);
+      }
+      setIsLoading(false);
+    });
+  }, []);
+
+  const displaySocials = socials;
+
+  if (isLoading && socials.length === 0) {
+    return null; // Avoid flicker during first load
+  }
+
   return (
-    <div className="flex items-center gap-x-5 text-lg">
-      {socialData.map((social, i) => (
-        <Link
-          key={i}
-          href={social.link}
-          title={social.name}
-          target="_blank"
-          rel="noreferrer noopener"
-          className={`${
-            social.name === "GitHub"
-              ? "bg-accent rounded-full p-[6px] hover:text-white"
-              : "hover:text-accent"
-          } transition-all duration-300`}
-        >
-          <social.Icon aria-hidden className="w-5 h-5" />
-          <span className="sr-only">{social.name}</span>
-        </Link>
-      ))}
+    <div className="flex items-center gap-x-5 text-xl">
+      {displaySocials.map((social, i) => {
+        const Icon = getIcon(social.icon);
+        return (
+          <Link
+            key={i}
+            href={social.url}
+            title={social.platform}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="relative group"
+          >
+            <div
+              className={`${social.platform === "GitHub"
+                ? "bg-accent text-white p-[6px] rounded-full shadow-[0_0_10px_rgba(241,48,36,0.3)] group-hover:shadow-[0_0_15px_rgba(241,48,36,0.5)]"
+                : "text-white/70 hover:text-accent"
+                } transition-all duration-500 ease-premium transform group-hover:-translate-y-1 group-hover:scale-110 flex items-center justify-center`}
+            >
+              <Icon aria-hidden="true" className="w-5 h-5" />
+            </div>
+            <span className="sr-only">{social.platform}</span>
+          </Link>
+        );
+      })}
     </div>
   );
 };

@@ -2,60 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================
+   1. Global Resets & Hardware Acceleration
+   ========================================= */
+html,
+body {
+  @apply min-h-screen w-full bg-secondary overflow-x-hidden leading-relaxed;
+  scroll-behavior: smooth;
+}
+
 .translate-z-0 {
   transform: translateZ(0px);
 }
-.swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
-.swiper-pagination-horizontal.swiper-pagination-bullets
-  .swiper-pagination-bullet {
-  background-color: #f13024;
+
+/* Premium Text Selection Color */
+::selection {
+  @apply bg-accent/80 text-white;
+}
+
+/* =========================================
+   2. Swiper.js Customization (Upgraded)
+   ========================================= */
+.swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet,
+.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+  @apply bg-accent opacity-40 transition-all duration-300;
+}
+
+/* Make the active slider bullet pop slightly larger */
+.swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet-active {
+  @apply opacity-100 scale-125;
+}
+
+/* Adjust Testimonial pagination specifically (Requested bottom -2 feel) */
+.testimonial-slider .swiper-pagination-bullets {
+  bottom: -10px !important;
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after,
-.swiper-button-next:after,
 .swiper-rtl .swiper-button-prev:after {
-  color: #f13024;
+  @apply text-accent drop-shadow-md transition-all duration-300;
 }
 
+/* =========================================
+   3. Base Typography & Forms (Glassmorphism)
+   ========================================= */
 @layer base {
-  body {
-    @apply bg-secondary overflow-hidden leading-relaxed;
-  }
   .page {
-    @apply w-full h-screen overflow-hidden;
+    @apply w-full min-h-screen overflow-x-hidden;
   }
+
+  /* Tighter tracking for a more modern, premium heading style */
   .h1 {
-    @apply text-[35px] leading-tight md:text-[60px] md:leading-[1.3] mb-8 font-semibold;
+    @apply text-[35px] leading-tight md:text-[60px] md:leading-[1.2] mb-8 font-bold tracking-tight;
   }
+
   .h2 {
-    @apply text-[35px] leading-tight md:text-[54px] md:leading-[1.3] mb-4 font-semibold;
+    @apply text-[35px] leading-tight md:text-[54px] md:leading-[1.2] mb-4 font-semibold tracking-tight;
   }
+
   p {
     @apply leading-[1.8] text-white/60 font-light;
   }
+
+  /* Form Elements Base Height */
   .btn,
   .input {
     @apply h-[52px];
   }
+
   .input {
-    @apply w-full h-[52px] rounded-lg pl-6;
+    @apply w-full rounded-lg pl-6;
   }
+
+  /* Upgraded to Glassmorphism (Frosted Glass) with smooth transitions */
   .input,
   .textarea {
-    @apply bg-transparent outline-none focus:ring-1 focus:ring-accent border border-white/20 placeholder:text-white/30 placeholder:font-light;
+    @apply bg-white/5 backdrop-blur-sm outline-none focus:ring-1 focus:ring-accent focus:border-accent border border-white/10 hover:border-white/20 transition-all duration-300 placeholder:text-white/30 placeholder:font-light text-white;
   }
+
   .textarea {
     @apply w-full h-[180px] p-6 rounded-lg resize-none;
   }
 }
-/* Apply full height to html and body */
-html,
-body {
-  @apply h-full w-full;
-}
 
-/* Optional: smooth scroll */
-html {
-  scroll-behavior: smooth;
+/* =========================================
+   4. Custom Utility Classes
+   ========================================= */
+@layer utilities {
+
+  /* Sleek, thin custom scrollbar for overflow areas */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-white/20 rounded-full hover:bg-accent/80 transition-colors duration-300;
+  }
+
+  /* Utility to completely hide scrollbars but keep functionality */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Universal Swiper Overrides for Portfolio Theme */
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+
+  @media (min-width: 768px) {
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: flex !important;
+      @apply text-accent transition-all duration-300;
+    }
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    @apply text-2xl font-bold;
+  }
+
+  .swiper-pagination-bullet {
+    @apply bg-white/20 opacity-100;
+  }
+
+  .swiper-pagination-bullet-active {
+    @apply bg-accent;
+  }
+
+  /* Specific tweak for Testimonials pagination spacing */
+  .testimonial-slider .swiper-pagination-bullets {
+    bottom: -5px !important;
+  }
 }
