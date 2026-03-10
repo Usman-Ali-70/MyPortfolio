@@ -3,7 +3,7 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
-import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Load the sleek, modern Sora font for a premium tech aesthetic
 const sora = Sora({
@@ -113,8 +113,7 @@ export default function RootLayout({
         {/* Adds Google Analytics and Google Tag Manager. Replace with your actual IDs */}
         <GoogleAnalytics gaId="G-XYZ" />
         <GoogleTagManager gtmId="GTM-XYZ" />
-        {/* Vercel Web Analytics */}
-        <Analytics />
+        <SpeedInsights />
         {/* JSON-LD Schema defined for Rich Search Results */}
         <script
           type="application/ld+json"
@@ -137,6 +136,7 @@ export default function RootLayout({
             }),
           }}
         />
+        <SpeedInsights />
       </body>
     </html>
   );
