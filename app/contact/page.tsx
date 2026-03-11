@@ -31,29 +31,28 @@ const ContactPage = () => {
       setStatusMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
-      // Clear the status message after 5 seconds
       setTimeout(() => setStatusMessage(null), 5000);
     }
   };
 
   return (
-    <div className="min-h-screen bg-primary/30 overflow-y-auto xl:overflow-hidden pt-30 xl:pt-0 flex items-center">
-      <div className="container mx-auto h-full text-center xl:text-left flex items-center justify-center">
-        {/* ===== Text & Form ===== */}
-        <div className="flex flex-col w-full max-w-[700px] px-4 md:px-0">
+    <div className="h-full bg-primary/30 overflow-y-auto overflow-x-hidden scrollbar-hide overscroll-none pt-24 pb-28 xl:pt-0 xl:pb-0 flex items-start xl:items-center">
+      <div className="container mx-auto text-center xl:text-left flex items-center justify-center px-4 md:px-0 py-8">
+        {/* Text & Form */}
+        <div className="flex flex-col w-full max-w-[700px]">
 
-          {/* ===== Title ===== */}
+          {/* Title */}
           <motion.h2
             variants={fadeIn("up", 0.2)}
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="text-[32px] md:text-5xl font-semibold text-center mb-8 md:mb-12"
+            className="text-[28px] md:text-5xl font-semibold text-center mb-8 md:mb-12"
           >
-            Let’s <span className="text-accent">connect.</span>
+            Let&apos;s <span className="text-accent">connect.</span>
           </motion.h2>
 
-          {/* ===== Contact Form ===== */}
+          {/* Contact Form */}
           <motion.form
             variants={fadeIn("up", 0.4)}
             initial="hidden"
@@ -73,6 +72,7 @@ const ContactPage = () => {
                 disabled={isLoading}
                 required
                 aria-label="Your name"
+                id="contact-name"
               />
               <input
                 type="email"
@@ -82,6 +82,7 @@ const ContactPage = () => {
                 disabled={isLoading}
                 required
                 aria-label="Your email address"
+                id="contact-email"
               />
             </div>
 
@@ -95,15 +96,17 @@ const ContactPage = () => {
                 disabled={isLoading}
                 required
                 aria-label="Your mobile number"
+                id="contact-phone"
               />
               <input
                 type="text"
-                name="subject_topic" // Using subject_topic so it doesn't conflict with Web3Forms default subject
+                name="subject_topic"
                 placeholder="Subject"
                 className="input"
                 disabled={isLoading}
                 required
                 aria-label="Email subject"
+                id="contact-subject"
               />
             </div>
 
@@ -115,14 +118,19 @@ const ContactPage = () => {
               disabled={isLoading}
               required
               aria-label="Your message"
+              id="contact-message"
               rows={5}
             />
 
             {/* Status Message Display */}
             {statusMessage && (
-              <div className={`text-sm ${statusMessage.includes("Success") ? "text-green-400" : "text-red-400"} text-center`}>
+              <motion.div
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`text-sm ${statusMessage.includes("Success") ? "text-green-400" : "text-red-400"} text-center`}
+              >
                 {statusMessage}
-              </div>
+              </motion.div>
             )}
 
             {/* Submit Button */}
@@ -131,6 +139,7 @@ const ContactPage = () => {
               className={`btn relative rounded-full border border-white/50 max-w-[170px] px-8 py-3 transition-all duration-300 flex items-center justify-center overflow-hidden hover:border-accent group mx-auto md:mx-0 ${isLoading ? "opacity-60 cursor-not-allowed" : ""
                 }`}
               disabled={isLoading}
+              id="contact-submit"
             >
               <span className="group-hover:-translate-y-[120%] group-hover:opacity-0 transition-all duration-500 font-medium">
                 {isLoading ? "Sending..." : "Let's talk"}

@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import type { Engine, ISourceOptions } from "@tsparticles/engine";
+import type { Engine, ISourceOptions, Container } from "@tsparticles/engine";
 
 // Dynamically import Particles to avoid SSR issues
 const Particles = dynamic(() => import("@tsparticles/react").then((mod) => mod.Particles), {
@@ -12,19 +12,27 @@ const Particles = dynamic(() => import("@tsparticles/react").then((mod) => mod.P
   loading: () => null,
 });
 
-const ParticlesContainer: React.FC = () => {
+const ParticlesContainer: React.FC = React.memo(() => {
   const [init, setInit] = useState(false);
 
   // Initialize the engine once on mount
   useEffect(() => {
+    let cancelled = false;
     initParticlesEngine(async (engine: Engine) => {
       await loadSlim(engine);
     }).then(() => {
-      setInit(true);
+      if (!cancelled) setInit(true);
     });
+    return () => { cancelled = true; };
   }, []);
 
-  // Memoizing options prevents unnecessary re-renders and re-initialization of the engine
+  // Stable callback for loaded event (prevents re-render)
+  const particlesLoaded = useCallback(async (container?: Container) => {
+    // no-op, but required stable ref
+  }, []);
+
+  // Memoizing options prevents unnecessary re-renders and re-initialization
+  // IMPORTANT: Speed, density, and colors are EXACTLY preserved from original
   const options: ISourceOptions = useMemo(() => ({
     background: { color: { value: "" } },
     fpsLimit: 60,
@@ -58,9 +66,9 @@ const ParticlesContainer: React.FC = () => {
       },
       number: {
         value: 300,
-        density: { 
+        density: {
           enable: true,
-          area: 800 // Adding area optimization for density
+          area: 800
         },
       },
       opacity: {
@@ -83,14 +91,17 @@ const ParticlesContainer: React.FC = () => {
   if (!init) return null;
 
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none">
+    <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ contain: "strict" }}>
       <Particles
         id="tsparticles"
         className="w-full h-full"
         options={options}
+        particlesLoaded={particlesLoaded}
       />
     </div>
   );
-};
+});
+
+ParticlesContainer.displayName = "ParticlesContainer";
 
 export default ParticlesContainer;

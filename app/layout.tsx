@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Sora } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout";
@@ -9,11 +9,20 @@ const sora = Sora({
   subsets: ["latin"],
   variable: "--font-sora",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  display: "swap", // Font display swap for better LCP
 });
 
-// Comprehensive SEO Metadata perfectly tailored for a Full Stack role
+// Viewport configuration for mobile responsiveness
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#131424",
+};
+
+// Comprehensive SEO Metadata
 export const metadata: Metadata = {
-  metadataBase: new URL("https://usmanali.engineer"), // TODO: Replace with your actual deployment URL
+  metadataBase: new URL("https://usmanali.engineer"),
   title: {
     template: "%s | Usman Ali - Portfolio",
     default: "Usman Ali | Full Stack Developer & Next.js Expert",
@@ -64,11 +73,10 @@ export const metadata: Metadata = {
     title: "Usman Ali | Full Stack Developer",
     description:
       "Full Stack Developer specializing in modern web applications, ERP systems, and e-commerce architectures.",
-    url: "https://usmanali.engineer", // TODO: Replace with your actual deployed URL
+    url: "https://usmanali.engineer",
     siteName: "Usman Ali Portfolio",
     images: [
       {
-        // TODO: Add a screenshot of your portfolio to the public folder and name it og-image.png
         url: "/og-image.png",
         width: 1200,
         height: 630,
@@ -83,7 +91,7 @@ export const metadata: Metadata = {
     title: "Usman Ali | Full Stack Developer",
     description:
       "Full Stack Developer specializing in modern web applications, ERP systems, and e-commerce architectures.",
-    images: ["/og-image.png"], // Connects to the same image as OpenGraph
+    images: ["/og-image.png"],
   },
   icons: {
     icon: [
@@ -104,15 +112,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // Inject the custom font variable into the HTML tag
     <html lang="en" className={`${sora.variable}`}>
-      {/* Apply the font family and global height classes */}
-      <body className="h-full font-sora bg-secondary text-white/80">
+      <head>
+        {/* Preconnect to critical origins for faster resource loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        {/* DNS prefetch for analytics */}
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+      </head>
+      <body className="h-full font-sora bg-secondary text-white/80 overflow-hidden overscroll-none">
         <Layout>{children}</Layout>
-        {/* Adds Google Analytics and Google Tag Manager. Replace with your actual IDs */}
         <GoogleAnalytics gaId="G-XYZ" />
         <GoogleTagManager gtmId="GTM-XYZ" />
-        {/* JSON-LD Schema defined for Rich Search Results */}
+        {/* JSON-LD Schema for Rich Search Results */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -131,6 +145,12 @@ export default function RootLayout({
                 "https://github.com/Usman-Ali-70",
                 "https://www.instagram.com/usman_warraixh",
               ],
+              knowsAbout: [
+                "React.js", "Next.js", "Node.js", "TypeScript",
+                "MongoDB", "MySQL", "Express.js", "Tailwind CSS",
+                "ERP Dashboards", "E-commerce Development"
+              ],
+              description: "Full Stack Developer specializing in MERN stack, Next.js, React, and scalable web architectures.",
             }),
           }}
         />

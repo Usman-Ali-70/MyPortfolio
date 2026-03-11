@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FaWhatsapp, FaTimes, FaPaperPlane } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -18,89 +18,99 @@ const WhatsAppButton: React.FC = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    const toggleOpen = useCallback(() => {
+        setIsOpen(prev => !prev);
+        setShowNotification(false);
+    }, []);
+
+    const handleClose = useCallback(() => {
+        setIsOpen(false);
+    }, []);
+
     return (
-        <div className="fixed bottom-[100px] xl:bottom-10 right-6 xl:right-10 z-[70] font-sora">
+        <div className="fixed bottom-[84px] xl:bottom-8 right-4 xl:right-8 z-[70] font-sora">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: 40, scale: 0.8, filter: "blur(10px)" }}
-                        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, y: 40, scale: 0.8, filter: "blur(10px)" }}
-                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                        className="absolute bottom-20 right-0 w-[320px] bg-[#f0f2f5] rounded-2xl overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.4)] border border-white/10 origin-bottom-right"
+                        initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 30, scale: 0.9 }}
+                        transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                        className="absolute bottom-[68px] right-0 w-[290px] sm:w-[320px] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] origin-bottom-right"
                     >
-                        {/* Header - Staggered Child */}
+                        {/* Header */}
                         <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="bg-[#075e54] p-5 text-white shadow-md relative z-10"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.15 }}
+                            className="bg-gradient-to-r from-[#075e54] to-[#128c7e] p-4 text-white relative z-10"
                         >
                             <div className="flex items-center gap-x-3">
-                                <div className="relative">
-                                    <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-xl font-bold shadow-inner border border-white/10">
+                                <div className="relative flex-shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center text-base font-bold shadow-inner border border-white/10 backdrop-blur-sm">
                                         U
                                     </div>
                                     <motion.div
-                                        animate={{ scale: [1, 1.2, 1] }}
-                                        transition={{ repeat: Infinity, duration: 2 }}
-                                        className="absolute bottom-0.5 right-0.5 w-3 h-3 bg-[#25d366] border-2 border-[#075e54] rounded-full"
+                                        animate={{ scale: [1, 1.15, 1] }}
+                                        transition={{ repeat: Infinity, duration: 2.5 }}
+                                        className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#25d366] border-2 border-[#075e54] rounded-full"
                                     />
                                 </div>
-                                <div>
-                                    <h3 className="font-semibold text-[15px] leading-tight text-white/95">Usman Ali</h3>
+                                <div className="min-w-0">
+                                    <h3 className="font-semibold text-[14px] leading-tight text-white/95 truncate">Usman Ali</h3>
                                     <div className="flex items-center gap-x-1.5 mt-0.5">
-                                        <span className="w-1.5 h-1.5 bg-[#25d366] rounded-full animate-pulse" />
-                                        <p className="text-[11px] text-white/70 font-medium">Online</p>
+                                        <span className="w-1.5 h-1.5 bg-[#25d366] rounded-full animate-pulse flex-shrink-0" />
+                                        <p className="text-[10px] text-white/70 font-medium">Online</p>
                                     </div>
                                 </div>
                                 <button
-                                    onClick={() => setIsOpen(false)}
-                                    className="ml-auto text-white/50 hover:text-white hover:bg-white/10 p-2 rounded-full transition-all"
+                                    onClick={handleClose}
+                                    className="ml-auto text-white/40 hover:text-white hover:bg-white/10 p-1.5 rounded-full transition-all duration-200 flex-shrink-0"
+                                    aria-label="Close chat"
                                 >
-                                    <FaTimes />
+                                    <FaTimes className="text-sm" />
                                 </button>
                             </div>
                         </motion.div>
 
-                        {/* Chat Body - Fluid Staggered Message */}
-                        <div className="p-4 min-h-[140px] bg-[#e5ddd5] relative overflow-hidden">
+                        {/* Chat Body */}
+                        <div className="p-4 min-h-[120px] bg-[#e5ddd5] relative overflow-hidden">
                             {/* WhatsApp background pattern */}
-                            <div className="absolute inset-0 opacity-[0.06] bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat" />
+                            <div className="absolute inset-0 opacity-[0.04] bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat" />
 
                             <motion.div
-                                initial={{ opacity: 0, x: -20, scale: 0.9 }}
+                                initial={{ opacity: 0, x: -15, scale: 0.95 }}
                                 animate={{ opacity: 1, x: 0, scale: 1 }}
-                                transition={{ delay: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-                                className="bg-white p-3.5 rounded-lg rounded-tl-none shadow-[0_2px_5px_rgba(0,0,0,0.05)] text-[13.5px] leading-relaxed text-gray-800 max-w-[88%] relative z-10"
+                                transition={{ delay: 0.3, type: "spring", stiffness: 250, damping: 22 }}
+                                className="bg-white p-3 rounded-lg rounded-tl-none shadow-sm text-[13px] leading-relaxed text-gray-800 max-w-[85%] relative z-10"
                             >
                                 <p className="font-medium text-gray-900">Hi there! 👋</p>
-                                <p className="mt-1">I'm currently available for work. How can I help you? </p>
-                                <span className="text-[10px] text-gray-400 block mt-2 text-right font-medium">09:12 AM</span>
+                                <p className="mt-1 text-gray-600">I&apos;m currently available for work. How can I help you?</p>
+                                <span className="text-[10px] text-gray-400 block mt-1.5 text-right font-medium">09:12 AM</span>
 
                                 {/* Message bubble tail */}
-                                <div className="absolute top-0 -left-2 w-0 h-0 border-t-[10px] border-t-white border-l-[10px] border-l-transparent" />
+                                <div className="absolute top-0 -left-2 w-0 h-0 border-t-[8px] border-t-white border-l-[8px] border-l-transparent" />
                             </motion.div>
                         </div>
 
-                        {/* Footer - Social Proof & CTA */}
+                        {/* Footer CTA */}
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6 }}
-                            className="p-4 bg-white border-t border-gray-100 relative z-10"
+                            transition={{ delay: 0.45 }}
+                            className="p-3 bg-white border-t border-gray-100 relative z-10"
                         >
                             <a
                                 href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                onClick={() => setIsOpen(false)}
-                                className="flex items-center justify-center gap-x-2.5 bg-[#25d366] hover:bg-[#20ba5a] hover:scale-[1.02] active:scale-[0.98] text-white py-3 rounded-xl font-bold transition-all duration-300 shadow-[0_10px_20px_rgba(37,211,102,0.25)] group"
+                                onClick={handleClose}
+                                className="flex items-center justify-center gap-x-2 bg-gradient-to-r from-[#25d366] to-[#128c7e] hover:from-[#20ba5a] hover:to-[#0f7b6b] active:scale-[0.98] text-white py-2.5 rounded-xl font-bold text-sm transition-all duration-300 shadow-[0_8px_20px_rgba(37,211,102,0.25)] group"
                             >
-                                <FaPaperPlane className="text-sm transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                <FaPaperPlane className="text-xs transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                                 Start Chat
                             </a>
-                            <p className="text-center text-[10px] text-gray-400 mt-3 font-medium uppercase tracking-widest leading-none">
+                            <p className="text-center text-[9px] text-gray-400 mt-2 font-medium uppercase tracking-widest leading-none">
                                 End-to-End Encrypted
                             </p>
                         </motion.div>
@@ -108,61 +118,62 @@ const WhatsAppButton: React.FC = () => {
                 )}
             </AnimatePresence>
 
-            {/* Main Trigger Button */}
+            {/* Main Trigger Button - Redesigned */}
             <motion.button
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.5 }}
-                onClick={() => {
-                    setIsOpen(!isOpen);
-                    setShowNotification(false);
-                }}
-                className={`relative flex items-center justify-center w-15 h-15 md:w-16 md:h-16 ${isOpen ? "bg-gray-800" : "bg-[#25D366]"} text-white rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.4)] transition-all duration-500 z-[80] group`}
+                onClick={toggleOpen}
+                className={`relative flex items-center justify-center w-14 h-14 md:w-[60px] md:h-[60px] rounded-full z-[80] group transition-all duration-400 ${
+                    isOpen
+                        ? "bg-gradient-to-br from-gray-700 to-gray-900 shadow-[0_8px_25px_rgba(0,0,0,0.4)]"
+                        : "bg-gradient-to-br from-[#25D366] to-[#128c7e] shadow-[0_8px_30px_rgba(37,211,102,0.35)] hover:shadow-[0_12px_40px_rgba(37,211,102,0.45)] hover:scale-105 active:scale-95"
+                }`}
                 aria-label="WhatsApp Contact"
+                aria-expanded={isOpen}
             >
                 <AnimatePresence mode="wait">
                     {isOpen ? (
                         <motion.div
                             key="close"
-                            initial={{ rotate: -180, opacity: 0 }}
+                            initial={{ rotate: -90, opacity: 0 }}
                             animate={{ rotate: 0, opacity: 1 }}
-                            exit={{ rotate: 180, opacity: 0 }}
-                            transition={{ duration: 0.4 }}
+                            exit={{ rotate: 90, opacity: 0 }}
+                            transition={{ duration: 0.25 }}
                         >
-                            <FaTimes className="text-2xl" />
+                            <FaTimes className="text-xl text-white" />
                         </motion.div>
                     ) : (
                         <motion.div
                             key="whatsapp"
-                            initial={{ rotate: 180, opacity: 0 }}
+                            initial={{ rotate: 90, opacity: 0 }}
                             animate={{ rotate: 0, opacity: 1 }}
-                            exit={{ rotate: -180, opacity: 0 }}
-                            transition={{ duration: 0.4 }}
+                            exit={{ rotate: -90, opacity: 0 }}
+                            transition={{ duration: 0.25 }}
                             className="relative"
                         >
-                            <FaWhatsapp className="text-3xl md:text-3xl" />
+                            <FaWhatsapp className="text-2xl md:text-[26px] text-white" />
                         </motion.div>
                     )}
                 </AnimatePresence>
 
-                {/* Professional badge - Self-hiding on click */}
+                {/* Notification badge */}
                 {showNotification && !isOpen && (
                     <motion.span
                         initial={{ scale: 0 }}
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ repeat: Infinity, duration: 2, repeatDelay: 1 }}
-                        className="absolute -top-1 -right-1 flex h-6 w-6 z-[90]"
+                        animate={{ scale: 1 }}
+                        className="absolute -top-0.5 -right-0.5 flex h-5 w-5 z-[90]"
                     >
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-6 w-6 bg-red-500 text-[11px] items-center justify-center font-bold text-white shadow-lg">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-60"></span>
+                        <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-[10px] items-center justify-center font-bold text-white shadow-lg">
                             1
                         </span>
                     </motion.span>
                 )}
 
-                {/* Subtle Ring Pulses */}
+                {/* Subtle outer ring pulse */}
                 {!isOpen && (
-                    <span className="absolute inset-0 rounded-full border border-[#25D366]/50 animate-ping opacity-20 group-hover:hidden" />
+                    <span className="absolute inset-[-3px] rounded-full border-2 border-[#25D366]/30 animate-ping opacity-15 pointer-events-none" />
                 )}
             </motion.button>
         </div>

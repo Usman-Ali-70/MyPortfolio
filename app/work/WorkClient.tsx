@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+
 import Bulb from "@/components/Bulb";
 import Circles from "@/components/Circles";
 import WorkSlider from "@/components/WorkSlider";
@@ -22,12 +23,20 @@ const WorkClient: React.FC<WorkClientProps> = ({ projects }) => {
     const displayProjects = projects || [];
 
     return (
-        <div className="relative min-h-screen bg-primary/30 flex items-center overflow-y-auto xl:overflow-hidden pt-36 xl:pt-0">
-            <Circles />
+        <div className="relative h-full bg-primary/30 flex items-start xl:items-center overflow-y-auto overflow-x-hidden scrollbar-hide overscroll-none pt-24 pb-28 xl:pt-0 xl:pb-0">
+
+            {/* Decorative elements - fixed/sticky at bottom on all devices */}
+            <div className="fixed bottom-[72px] xl:bottom-0 -right-8 xl:-right-16 opacity-40 xl:opacity-50 select-none pointer-events-none z-[15]">
+                <Circles />
+            </div>
+            <div className="fixed bottom-[-20px] xl:bottom-[-70px] left-[-95px] xl:left-[-125px] opacity-30 xl:opacity-50 select-none pointer-events-none z-[15]">
+                <Bulb />
+            </div>
+
 
             <div className="absolute top-[20%] left-[5%] w-[250px] md:w-[350px] h-[250px] md:h-[350px] bg-accent/10 rounded-full blur-[100px] pointer-events-none z-10" />
 
-            <div className="container mx-auto h-full flex items-center pt-12 md:pt-24 xl:pt-0 px-4 md:px-0 relative z-20">
+            <div className="container mx-auto flex items-center px-4 md:px-0 relative z-20">
                 <div className="flex flex-col xl:flex-row gap-x-12 w-full items-center">
 
                     <div className="text-center flex xl:w-[35vw] flex-col lg:text-left mb-12 xl:mb-0 relative xl:-mt-8">
@@ -39,7 +48,7 @@ const WorkClient: React.FC<WorkClientProps> = ({ projects }) => {
                             initial="hidden"
                             animate="show"
                             exit="hidden"
-                            className="text-[32px] md:text-5xl xl:text-6xl font-semibold mb-4 tracking-tight"
+                            className="text-[28px] md:text-5xl xl:text-6xl font-semibold mb-4 tracking-tight"
                         >
                             My <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-accent hover:from-accent hover:to-orange-400 transition-all duration-500 cursor-default">Work.</span>
                         </motion.h2>
@@ -49,7 +58,7 @@ const WorkClient: React.FC<WorkClientProps> = ({ projects }) => {
                             initial="hidden"
                             animate="show"
                             exit="hidden"
-                            className="mb-8 max-w-[400px] mx-auto lg:mx-0 text-[14px] md:text-base xl:text-lg text-gray-300 leading-relaxed font-light"
+                            className="mb-8 max-w-[400px] mx-auto lg:mx-0 text-[13px] md:text-base xl:text-lg text-gray-300 leading-relaxed font-light"
                         >
                             A selection of my recent developments. From engineering full-scale e-commerce architectures to robust ERP dashboards, each project is crafted with performance, scalability, and elegant UI/UX in mind.
                         </motion.p>
@@ -77,7 +86,7 @@ const WorkClient: React.FC<WorkClientProps> = ({ projects }) => {
                         initial="hidden"
                         animate="show"
                         exit="hidden"
-                        className="w-full xl:max-w-[65%] relative pb-16 md:pb-24 xl:pb-0"
+                        className="w-full xl:max-w-[65%] relative pb-8 xl:pb-0"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent blur-2xl pointer-events-none -z-10 rounded-3xl" />
 
@@ -86,8 +95,6 @@ const WorkClient: React.FC<WorkClientProps> = ({ projects }) => {
 
                 </div>
             </div>
-
-            <Bulb />
         </div>
     );
 };

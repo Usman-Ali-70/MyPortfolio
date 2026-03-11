@@ -156,21 +156,24 @@ const AboutPage = () => {
   const [index, setIndex] = useState<number>(0);
 
   return (
-    <div className="relative min-h-screen xl:h-screen bg-primary/30 flex items-center text-center xl:text-left pt-24 pb-32 xl:pt-0 xl:pb-0 overflow-x-hidden">
-      <Circles />
+    <div className="relative h-full bg-primary/30 flex flex-col xl:flex-row xl:items-center text-center xl:text-left overflow-y-auto overflow-x-hidden scrollbar-hide overscroll-none">
+      {/* Circles - fixed/sticky at bottom-right on all devices */}
+      <div className="fixed bottom-[72px] xl:bottom-0 -right-8 xl:-right-16 opacity-40 xl:opacity-50 select-none pointer-events-none z-[15]">
+        <Circles />
+      </div>
 
-      {/* Avatar (Left side fixed, half hidden on left bound) - EXACTLY AS ORIGINAL */}
+      {/* Half Avatar - sticky above nav on mobile, fixed left-bottom on desktop */}
       <motion.div
         variants={fadeIn("right", 0.2)}
         initial="hidden"
         animate="show"
         exit="hidden"
-        className="flex fixed bottom-[80px] xl:bottom-0 left-0 w-full max-w-[150px] sm:max-w-[250px] md:max-w-[350px] xl:max-w-[570px] opacity-100 transition-all duration-500 z-[60] pointer-events-none"
+        className="fixed bottom-[72px] xl:bottom-0 left-0 w-full max-w-[120px] sm:max-w-[160px] md:max-w-[200px] xl:max-w-[420px] 2xl:max-w-[500px] opacity-60 xl:opacity-100 z-[15] pointer-events-none"
       >
         <HalfAvatar />
       </motion.div>
 
-      <div className="container mx-auto min-h-full flex flex-col xl:flex-row items-center gap-x-6 px-4 py-8 xl:py-0 relative z-[70]">
+      <div className="container mx-auto flex flex-col xl:flex-row items-center gap-x-6 px-4 py-8 xl:py-0 relative z-[20] pt-24 pb-28 xl:pt-0 xl:pb-0">
 
         <div className="flex-1 flex flex-col w-full xl:w-auto mt-2 xl:mt-0 pb-8 xl:pb-0">
           <motion.h2
@@ -178,7 +181,7 @@ const AboutPage = () => {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="text-[28px] leading-[1.2] md:text-4xl xl:text-5xl font-semibold mb-2 xl:mb-4 px-2 xl:px-0"
+            className="text-[26px] leading-[1.2] md:text-4xl xl:text-5xl font-semibold mb-2 xl:mb-4 px-2 xl:px-0"
           >
             Delivering <span className="text-accent">high-performance</span> web solutions.
           </motion.h2>
@@ -189,7 +192,7 @@ const AboutPage = () => {
             animate="show"
             className="max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 text-[13px] md:text-sm xl:text-base text-gray-300 leading-relaxed px-2 xl:px-0"
           >
-            I’m <span className="text-orange-500 font-medium">Usman Ali</span>, a Full Stack Developer experienced in building scalable applications. From engineering ERP dashboards to deploying robust architectures, I focus on creating responsive and user-centric digital experiences.
+            I&apos;m <span className="text-orange-500 font-medium">Usman Ali</span>, a Full Stack Developer experienced in building scalable applications. From engineering ERP dashboards to deploying robust architectures, I focus on creating responsive and user-centric digital experiences.
           </motion.p>
 
           {/* Counters */}
@@ -230,35 +233,39 @@ const AboutPage = () => {
           </motion.div>
         </div>
 
-        {/* Right Info Tabs - Class exactly matches your original setup */}
+        {/* Right Info Tabs */}
         <motion.div
           variants={fadeIn("left", 0.4)}
           initial="hidden"
           animate="show"
           exit="hidden"
-          className="flex flex-col w-full xl:max-w-[48%] min-h-max xl:h-[480px] pb-24 xl:pb-0"
+          className="flex flex-col w-full xl:max-w-[48%] min-h-max xl:h-[480px] pb-8 xl:pb-0"
         >
           {/* Tabs */}
           <div className="flex gap-x-4 xl:gap-x-8 mx-auto xl:mx-0 mb-4 overflow-x-auto whitespace-nowrap scrollbar-hide w-full justify-center xl:justify-start">
             {aboutData.map((item, itemI) => (
-              <div
+              <button
                 key={itemI}
                 onClick={() => setIndex(itemI)}
-                className={`cursor-pointer capitalize xl:text-lg relative after:w-8 after:h-[2px] after:bg-white after:absolute after:-bottom-1 after:left-0 ${index === itemI
-                  ? "text-accent after:w-full after:bg-accent transition-all duration-300"
-                  : "text-white/70"
+                className={`cursor-pointer capitalize xl:text-lg relative after:w-8 after:h-[2px] after:bg-white after:absolute after:-bottom-1 after:left-0 transition-all duration-300 ${index === itemI
+                  ? "text-accent after:w-full after:bg-accent"
+                  : "text-white/70 hover:text-white/90"
                   }`}
+                aria-pressed={index === itemI}
               >
                 {item.title}
-              </div>
+              </button>
             ))}
           </div>
 
-          {/* Dynamic Info - Added overflow-y-auto so the new larger skills list fits without breaking the original layout size */}
+          {/* Dynamic Info */}
           <div className="py-2 xl:py-6 flex flex-col gap-y-2 xl:gap-y-4 items-center xl:items-start xl:overflow-y-auto pr-2 custom-scrollbar">
             {aboutData[index].info.map((item, itemI) => (
-              <div
-                key={itemI}
+              <motion.div
+                key={`${index}-${itemI}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: itemI * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className="flex flex-col w-full text-center xl:text-left text-white/70"
               >
                 <div className="flex flex-col md:flex-row md:items-center gap-x-2 w-full justify-center xl:justify-start">
@@ -275,22 +282,25 @@ const AboutPage = () => {
                 {item.skills && (
                   <div className="flex flex-wrap gap-2 mt-2 justify-center xl:justify-start w-full">
                     {item.skills.map((skill, skillI) => (
-                      <div
+                      <motion.div
                         key={skillI}
-                        className="flex items-center gap-x-2 bg-white/10 px-2 py-1 rounded text-[11px] md:text-xs text-white"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: (itemI * 0.05) + (skillI * 0.02), duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                        className="flex items-center gap-x-2 bg-white/10 hover:bg-white/15 px-2 py-1 rounded text-[11px] md:text-xs text-white transition-colors duration-200"
                       >
                         {skill.Icon && <skill.Icon className="text-accent" />}
                         <span>{skill.name}</span>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
       </div>
-    </div >
+    </div>
   );
 };
 

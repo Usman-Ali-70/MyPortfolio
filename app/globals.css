@@ -5,19 +5,36 @@
 /* =========================================
    1. Global Resets & Hardware Acceleration
    ========================================= */
-html,
-body {
-  @apply min-h-screen w-full bg-secondary overflow-x-hidden leading-relaxed;
-  scroll-behavior: smooth;
+html {
+  @apply w-full bg-secondary;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
+body {
+  @apply w-full bg-secondary leading-relaxed;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* Force GPU compositing for smoother animations */
 .translate-z-0 {
   transform: translateZ(0px);
+  will-change: transform;
 }
 
 /* Premium Text Selection Color */
 ::selection {
   @apply bg-accent/80 text-white;
+}
+
+/* Smooth scroll for anchors only within content areas */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* =========================================
@@ -33,7 +50,7 @@ body {
   @apply opacity-100 scale-125;
 }
 
-/* Adjust Testimonial pagination specifically (Requested bottom -2 feel) */
+/* Adjust Testimonial pagination specifically */
 .testimonial-slider .swiper-pagination-bullets {
   bottom: -10px !important;
 }
@@ -49,7 +66,9 @@ body {
    ========================================= */
 @layer base {
   .page {
-    @apply w-full min-h-screen overflow-x-hidden;
+    @apply w-full;
+    height: 100%;
+    overflow: hidden;
   }
 
   /* Tighter tracking for a more modern, premium heading style */
@@ -146,4 +165,45 @@ body {
   .testimonial-slider .swiper-pagination-bullets {
     bottom: -5px !important;
   }
+}
+
+/* =========================================
+   5. Performance & Animation Optimizations
+   ========================================= */
+
+/* Reduce animation overhead on low-power devices */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Micro-animation utilities */
+.animate-fade-in {
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(241, 48, 36, 0.15); }
+  50% { box-shadow: 0 0 40px rgba(241, 48, 36, 0.3); }
 }
