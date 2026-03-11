@@ -3,6 +3,7 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Load the sleek, modern Sora font for a premium tech aesthetic
 const sora = Sora({
@@ -126,7 +127,8 @@ export default function RootLayout({
         <Layout>{children}</Layout>
         <GoogleAnalytics gaId="G-XYZ" />
         <GoogleTagManager gtmId="GTM-XYZ" />
-        {/* JSON-LD Schema for Rich Search Results */}
+        <SpeedInsights />
+        {/* JSON-LD Schema defined for Rich Search Results */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -154,6 +156,7 @@ export default function RootLayout({
             }),
           }}
         />
+        <SpeedInsights />
       </body>
     </html>
   );
