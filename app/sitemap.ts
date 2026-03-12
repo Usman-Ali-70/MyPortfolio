@@ -1,10 +1,9 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://usmanali.engineer'; // TODO: Replace with your actual domain
+    const baseUrl = 'https://usmanali.engineer'; 
 
-    // Get all routes dynamically if needed, 
-    // but for a portfolio, these are typically the main pages.
+    
     return [
         {
             url: `${baseUrl}`,

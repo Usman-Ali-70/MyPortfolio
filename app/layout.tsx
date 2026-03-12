@@ -64,10 +64,10 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   verification: {
-    google: "YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_STRING", // TODO: Replace
-    yandex: "YOUR_YANDEX_VERIFICATION_STRING", // TODO: Replace
+    google: "google-site-verification=e2z5_eAu0FRFRKD3OVSi1So60nKdcmtOiKR0BIZ0gDk", 
+    yandex: "07b77b24e0c724e8", 
     other: {
-      me: ["my-email@example.com", "https://usmanali.engineer"], // TODO: Replace
+      me: ["usman.ali.dev@outlook.com", "https://usmanali.engineer"], 
     },
   },
   openGraph: {
@@ -96,10 +96,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.png", sizes: "512x512", type: "image/png" },
     ],
+    shortcut: [{ url: "/favicon.ico" }],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
@@ -125,8 +128,8 @@ export default function RootLayout({
       </head>
       <body className="h-full font-sora bg-secondary text-white/80 overflow-hidden overscroll-none">
         <Layout>{children}</Layout>
-        <GoogleAnalytics gaId="G-XYZ" />
-        <GoogleTagManager gtmId="GTM-XYZ" />
+        <GoogleAnalytics gaId="G-85LF3R60KM" />
+        <GoogleTagManager gtmId="GTM-N89QF3RJ" />
         <SpeedInsights />
         {/* JSON-LD Schema defined for Rich Search Results */}
         <script
